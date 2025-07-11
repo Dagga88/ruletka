@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "devextreme": "^24.2.8",
+    "devextreme-vue": "^24.2.8",
+    "v-click-outside": "^3.2.0"
+  }
+}
