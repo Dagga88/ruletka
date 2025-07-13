@@ -10,13 +10,16 @@
 import Header from '@/layout/Header.vue'
 import SideBar from '@/layout/SideBar.vue'
 import { useUserStore } from '@/stores/UserStore.js'
+import { useCaseStore } from '@/stores/CaseStore.js'
 import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
+const caseStore = useCaseStore()
 const userStore = useUserStore()
 const route = useRoute()
 
 onMounted(async () => {
+  await caseStore.fetchCases()
   const accessT = localStorage.getItem('access_token')
   console.log(accessT)
   try {

@@ -34,18 +34,18 @@ export const useSkinStore = defineStore("skinStore", {
       this.resultingSkin = response.data
       console.log('Полученный скин: ' + JSON.stringify(this.resultingSkin))
       
-      while (shuffledSkins.length < 30) {
+      while (shuffledSkins.length < 65) {
         shuffledSkins = [...shuffledSkins, ...this.skins];
       }
      
-      shuffledSkins = shuffledSkins.slice(0, 27);
+      shuffledSkins = shuffledSkins.slice(0, 60);
       
       for (let i = shuffledSkins.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [shuffledSkins[i], shuffledSkins[j]] = [shuffledSkins[j], shuffledSkins[i]];
       }
       this.skinsRoulette = shuffledSkins;
-      this.skinsRoulette[23] = this.resultingSkin;
+      this.skinsRoulette[56] = this.resultingSkin;
     }
   },
 });

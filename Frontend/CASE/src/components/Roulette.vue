@@ -20,10 +20,13 @@
                     />
                 </div>
             </div>
-            <button v-if="!skinStore.isOpen" :disabled="!hasBalance"  @click="openCase" class="open_case">Open case {{caseStore.rouletteCase.price}}</button>
-            <div v-if="!skinStore.isOpen && !hasBalance" class="no_money">
-                <p class="text_no_money">Не хватает денег</p>
-                <p class="up_balance">пополнить</p>
+            <h2 v-if="!userStore.isAuth">Необходимо авторизоваться чтобы открыть кей</h2>
+            <div v-else>
+                <button v-if="!skinStore.isOpen" :disabled="!hasBalance"  @click="openCase" class="open_case">Open case {{caseStore.rouletteCase.price}}</button>
+                <div v-if="!skinStore.isOpen && !hasBalance" class="no_money">
+                    <p class="text_no_money">Не хватает денег</p>
+                    <p class="up_balance">пополнить</p>
+                </div>
             </div>
             <SkinResult v-if="showSkinResult" />
         </div>
@@ -63,33 +66,25 @@ const showSkinResult = computed(() => {
   return caseStore.endAnimation && skinStore.isOpen;
 });
 
-// const playSound = () => {
-//   const audio = new Audio('/scroll.mp3')
-//   audio.volume = 0.5
-//   audio.play()
-// }
-
 const openCase = async () => {
     await skinStore.fetchSkins(caseID)
     await skinStore.shuffleSkinsToRoulette(caseID)
     await userStore.setBalance()
 
     skinStore.isOpen = true
-    await nextTick() // тут DOM уже отрисован
+    await nextTick()
 
-    // сбрасываем позицию сначала
     caseStore.translateX = '0px'
-    await nextTick() // ждём чтобы Vue зафиксировал начальное значение
+    await nextTick()
 
-    // теперь запускаем анимацию
-    const startNum = -4609
-    const random = Math.floor(Math.random() * 198)
+    const startNum = -11400
+    const random = Math.floor(Math.random() * 50)
     const result = startNum + random
     caseStore.translateX = `${result}px`
 
     timeoutId = setTimeout(() => {
         caseStore.endAnimation = true
-    }, 16500)
+    }, 15000)
 }
 
 const loadCase = async (id) => {
@@ -194,7 +189,7 @@ watch(
     align-items: center;
     justify-content: flex-start;
     gap: 8px;
-    transition: transform 15s ease-out;
+    transition: transform 15s cubic-bezier(0.4, 1, 0.8, 1);
 }  
 
 .open_case {
